@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+
+{% block title %}-Registration{% endblock %}
+
+{% block content %}
+
+<div class="container registration">
+  <div class="inner-content">
+    <div class="row">
+      <div class="col-md-6 left-section">
+        <form action="/registration" method="POST">
+          {{form.csrf_token}}
+            <h1><span>S</span>ign Up Now..</h1>
+            <div class="row">
+              <div class=" col mb-3">
+                <label for="exampleInputEmail1" class="form-label">{{form.first_name.label}}</label>
+                {{form.first_name( class="form-control")}}
+              </div>
+              <div class=" col  mb-3">
+                <label for="exampleInputEmail1" class="form-label">{{form.last_name.label}}</label>
+                {{form.last_name( class="form-control")}}
+              </div>
+            </div>
+            <div class="row">
+              <div class=" col">
+                <label for="exampleInputEmail1" class="form-label">{{ form.address.label }}</label>
+                
+                {{ form.address(class="form-control") }}
+              </div>
+              <div class=" col">
+                <label for="exampleInputEmail1" class="form-label">{{form.phone_number.label}}</label>
+                
+                {{form.phone_number(class="form-control")}}
+                <div id="emailHelp" class="form-text">Phone number must be 10 digits long.</div>
+              </div>
+            </div>
+              <div class="mb-3">
+                <label for="exampleInputEmail1" class="form-label">{{form.email.label}}</label>
+                
+                {{form.email(class="form-control")}}
+                <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+              </div>
+              <div class="mb-3">
+                <label for="exampleInputPassword1" class="form-label">{{form.password1.label}}</label>
+                
+                {{form.password1(class="form-control")}}
+              </div>
+              <div class="mb-3">
+                  <label for="exampleInputPassword2" class="form-label">{{form.password2.label}}</label>
+                  
+                  {{form.password2(class="form-control")}}
+              </div>
+              <button type="submit" class="btn btn-lg">Sign Up</button>
+            </form>
+      </div>
+      <div class="col-md-6 right-section"></div>
+
+    </div>
+    
+  </div>
+
+</div>
+
+
+
+{% endblock %}

@@ -1,0 +1,83 @@
+
+.innercontainer{
+    width: 100%;
+    margin-top: 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    .search-bar{
+        margin: 0 110px;
+        display: flex;
+        align-items: center;
+    
+        i{
+            position: absolute;
+            padding-left: 20px;
+    
+        }
+    
+        input{
+            width: 30.75%;
+            height: 50px !important;
+            background: #FFFFFF;
+            border-radius: 4px;
+            border: none;
+            
+            
+            line-height: 26px;
+            padding-left: 60px;
+    
+            &:focus{
+                outline:none;
+            }
+        }
+
+        button{
+            margin-left: 20px;
+            color: white;
+            background-color: $secondary-color;
+        }
+    }
+    
+    .treks{
+        margin: 0 110px;
+        display: flex;
+        justify-content: space-between;
+        gap: 30px;
+        flex-wrap: wrap;
+        
+        .card{
+            box-shadow: 5px 10px $secondary-color;
+            &-body{
+                a{
+                    text-decoration: none;
+                    color: black;
+
+                    &:hover{
+                        color: $secondary-color;
+                    }
+                }
+            }
+        }
+
+    }
+}
+
+
+#addTrek{
+    .modal-title{
+        span{
+            color: $primary-color;
+        }
+    }
+    .modal-body{
+        .btn{
+            background-color: $primary-color;
+
+            &:hover{
+                background-color: $secondary-color;
+                color: white;
+            }
+        }
+    }
+}

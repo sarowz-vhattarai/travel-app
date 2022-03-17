@@ -1,0 +1,223 @@
+ ----------------------------------API ENDPOINTS-------------------------------------
+
+ => GET  http://127.0.0.1:5000/api/treks
+
+    Parameters  : None
+
+    Response:
+
+    -treks     : Gives all the saved treks
+
+
+ => GET  http://127.0.0.1:5000/api/treks/search/<keyword>
+
+    Parameters  : 
+
+    -keyword    : String value on which search is based on
+
+    Response:
+
+    -treks     : Gives all the treks matched with the keyword
+
+    
+=> POST http://127.0.0.1:5000/api/register
+
+    Parameters:
+
+    -first_name      : required : text   --- First Name of the user
+    -last_name       : required : text   --- Last Name of the user
+    -address         : required : text   --- Address of the user
+    -phone_number    : required : number --- Contact number of the user
+    -email           : required : email  --- Email of the user
+    -password1       : required : text   --- Password for the userID
+    -password2       : required : text   --- Confirmation password
+
+    eg  Payload:
+    {
+        "first_name"         : "your first_name",
+        "last_name "         : "your last_name",
+        "address"            : "your address"
+        "phone_number"       : <your phone_number>
+        "email"              : "your email"
+        "password1"          : "password1"
+        "password2"          : "password2"
+    }
+
+    Response:
+
+    -message    : A message after registration is attempted
+
+
+=> POST  http://127.0.0.1:5000/api/login
+
+    Parameters:
+
+    -email      : required --- Email of the registered user
+    -password   : required --- Password of the registered user
+
+    eg  Payload:
+    {
+        "email"     : "your email",
+        "password"  : "your password"
+    }
+
+    Response:
+
+    -logged_in  : Returns login status ( True / Flase )
+    -message    : A message after login is attempted 
+    -token      : A token ID provided for logged in user
+
+
+
+=> POST http://127.0.0.1:5000/api/addTrek
+
+    Parameters:
+
+    -title      : required : text   --- Title of the trek
+    -days       : required : number --- Number of days required for the trek
+    -difficulty : required : text   --- Difficulty Level of the trek
+    -total_cost : required : number --- Total cost required for the trek
+    -token      : required : text   --- Token ID of the logged in user
+
+    eg  Payload:
+    {
+        "title"         : "your title",
+        "days"          : <days>,
+        "difficulty"    : "difficulty"
+        "total_cost"    : <total_cost>,
+        "token"         : "your_token"
+    }
+
+    Response:
+
+    -message    : A message after trek addition is attempted   
+
+
+
+=> PUT http://127.0.0.1:5000/api/updateTrek
+
+    Parameters:
+    -trekID     : required : number --- ID of trek destination that you desire to update
+    -title      : required : text   --- Title of the trek
+    -days       : required : number --- Number of days required for the trek
+    -difficulty : required : text   --- Difficulty Level of the trek
+    -total_cost : required : number --- Total cost required for the trek
+    -token      : required : text   --- Token ID of the logged in user
+
+    eg  Payload:
+    {
+        "trekID"        : <ID>,
+        "title"         : "your title",
+        "days"          : <days>,
+        "difficulty"    : "difficulty"
+        "total_cost"    : <total_cost>,
+        "token"         : "your_token"
+    }
+
+    Response:
+
+    -message    : A message after trek update is attempted  
+
+
+
+=> DELETE http://127.0.0.1:5000/api/deleteTrek
+
+    Parameters:
+    -trekID     : required : number --- ID of trek destination that you desire to delete
+    -token      : required : text   --- Token ID of the logged in user
+
+    eg  Payload:
+    {
+        "trekID"        : <ID>,
+        "token"         : "your_token"
+    }
+
+    Response:
+
+    -message    : A message after trek deletion is attempted
+
+
+------------------------------------------ REST API ---------------------------------------------
+
+=> <method> http://127.0.0.1:5000/rest/treks
+
+1. GET 
+
+    - Returns all the treks avaialble
+
+    Parameters  : None
+
+    Response:
+
+    -treks     : Gives all the saved treks
+
+2. POST
+
+    - Adds the trek
+
+    Parameters:
+
+    -title      : required : text   --- Title of the trek
+    -days       : required : number --- Number of days required for the trek
+    -difficulty : required : text   --- Difficulty Level of the trek
+    -total_cost : required : number --- Total cost required for the trek
+    -token      : required : text   --- Token ID of the logged in user
+
+    eg  Payload:
+    {
+        "title"         : "your title",
+        "days"          : <days>,
+        "difficulty"    : "difficulty"
+        "total_cost"    : <total_cost>,
+        "token"         : "your_token"
+    }
+
+    Response:
+
+    -message    : A message after trek addition is attempted
+
+3. PUT
+
+    - Updates the trek
+
+    Parameters:
+    -trekID     : required : number --- ID of trek destination that you desire to update
+    -title      : required : text   --- Title of the trek
+    -days       : required : number --- Number of days required for the trek
+    -difficulty : required : text   --- Difficulty Level of the trek
+    -total_cost : required : number --- Total cost required for the trek
+    -token      : required : text   --- Token ID of the logged in user
+
+    eg  Payload:
+    {
+        "trekID"        : <ID>,
+        "title"         : "your title",
+        "days"          : <days>,
+        "difficulty"    : "difficulty"
+        "total_cost"    : <total_cost>,
+        "token"         : "your_token"
+    }
+
+    Response:
+
+    -message    : A message after trek update is attempted
+
+4. DELETE
+
+    - Deletes the trek
+
+    Parameters:
+    -trekID     : required : number --- ID of trek destination that you desire to delete
+    -token      : required : text   --- Token ID of the logged in user
+
+    eg  Payload:
+    {
+        "trekID"        : <ID>,
+        "token"         : "your_token"
+    }
+
+    Response:
+
+    -message    : A message after trek deletion is attempted
+
+

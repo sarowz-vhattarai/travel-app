@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link rel="stylesheet" href="{{ url_for('static',filename='css/main.css') }}">
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+
+  <title> trekNepal{% block title %} {% endblock %}</title>
+</head>
+
+<body>
+
+
+  <!-- Navbar section -->
+  <nav class="navbar navbar-expand-lg navbar-light">
+    <div class="container-fluid">
+      <a class="navbar-brand fs-2" href="#">trekNepal</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0 fs-5">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="/">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{url_for('allTreks')}}">Trek Destinations</a>
+          </li>
+          {% if not session['email'] %}
+          <li class="nav-item">
+            <a class="nav-link cursor-pointer" href="{{ url_for('registration')}}">Registration</a>
+          </li>
+          {% else %}
+          <li class="nav-item">
+            <a class="nav-link" data-bs-toggle="modal" data-bs-target="#addTrek">Add Trek</a>
+          </li>
+          {% endif %}
+        </ul>
+
+        {% if session['email'] %}
+        <span class="navbar-text me-5 fs-5">
+          Hello , {{session['email']}} ! <br>
+        </span>
+        <button type="button" class="btn btn-lg" data-bs-toggle="modal" data-bs-target="#logout">
+          Sign Out
+        </button>
+        {% else %}
+          <button type="button" class="btn btn-lg" data-bs-toggle="modal" data-bs-target="#login">
+            Sign In
+          </button>
+        {% endif %}
+      </div>
+    </div>
+  </nav>
+
+
+
+  <!-- Alert Box -->
+  {% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    {% for category,message in messages %}
+    <div class="alert alert-{{category}} alert-dismissible fade show" role="alert">
+      {{message}}
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% endfor %}
+  {% endif %}
+  {% endwith %}
+
+
+  <!-- Form Erros  -->
+  {% if form %}
+  <div class="error">
+    {% for field in form.errors %}
+    {% for error in form.errors[field] %}
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+      {{error}}
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% endfor %}
+    {% endfor %}
+  </div>
+  {% endif %}
+
+  <!-- Login Modal -->
+  <div class="modal fade" id="login" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title" id="staticBackdropLabel"><span>S</span>ign In Now...</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <!-- form  -->
+          <form action="/login" method="POST">
+            <div class="mb-3">
+              <label for="exampleInputEmail1" class="form-label">Email address</label>
+              <input type="email" class="form-control" name="email" id="exampleInputEmail1" aria-describedby="emailHelp" required>
+              <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+            </div>
+            <div class="mb-3">
+              <label for="exampleInputPassword1" class="form-label">Password</label>
+              <input type="password"  name="password" class="form-control" id="exampleInputPassword1" required>
+            </div>
+            <!-- <div class="mb-3 form-check">
+              <input type="checkbox" class="form-check-input" id="exampleCheck1">
+              <label class="form-check-label" for="exampleCheck1">Check me out</label>
+            </div> -->
+            <button type="submit" class="btn btn-lg">Sign In</button>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Logout modal  -->
+  <div class="modal fade" id="logout" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title" id="staticBackdropLabel"><span>S</span>ign Out Now...</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <!-- form  -->
+          <form action="/logout" method="POST">
+            <h5 class="mt-3"> Are you sure ? Do you want to sign out ?</h5> 
+            <div class="buttons mt-4">
+              <button type="submit" class="btn bg-warning me-2">Yes</button>
+              <button type="button" class="btn bg-primary" data-bs-dismiss="modal">No&nbsp;</button>
+            </div>
+        </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Add Trek Modal  -->
+<div class="modal fade" id="addTrek" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+aria-labelledby="staticBackdropLabel" aria-hidden="true">
+<div class="modal-dialog">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h1 class="modal-title" id="staticBackdropLabel"><span>A</span>dd Trek Now...</h1>
+      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    </div>
+    <div class="modal-body">
+      <!-- form  -->
+      <form action="/addTrek" method="POST">
+        <div class="mb-3">
+          <label for="exampleInputEmail1" class="form-label">Title</label>
+          <input type="text" class="form-control" name="title" id="exampleInputEmail1" required>
+        </div>
+        <div class="mb-3">
+          <label for="exampleInputEmail1" class="form-label">Days</label>
+          <input type="number" class="form-control" name="days" id="exampleInputEmail1" required>
+        </div>
+        <div class="mb-3">
+          <label for="exampleInputEmail1" class="form-label">Difficulty</label>
+          <input type="text" class="form-control" name="difficulty" id="exampleInputEmail1"  placeholder="Level 0" required>
+        </div>
+        <div class="mb-3">
+          <label for="exampleInputEmail1" class="form-label">Total Cost</label>
+          <input type="number" class="form-control" name="total_cost" id="exampleInputEmail1" required>
+        </div>
+
+        <button type="submit" class="btn btn-lg">Add Destination</button>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+    </div>
+  </div>
+</div>
+</div>
+  {% block content %}
+
+  {% endblock %}
+
+
+  <script src="{{ url_for('static',filename='js/main.js') }}"></script>
+
+  <!-- Optional JavaScript; choose one of the two! -->
+
+  <!-- Option 1: Bootstrap Bundle with Popper -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+    crossorigin="anonymous"></script>
+
+  <!-- Option 2: Separate Popper and Bootstrap JS -->
+  <!--
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
+    -->
+</body>
+
+</html>
